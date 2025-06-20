@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--Consulting webpage found at *https://g.co/gemini/share/3767e6636779-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Frederick Dreier - Business Consulting</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for body and container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #334155; /* Darker text */
+        }
+        .container {
+            max-width: 960px; /* Max width for content */
+        }
+        /* Styling for section headings */
+        .section-heading {
+            border-bottom: 2px solid #cbd5e1; /* Light gray border */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #1e293b; /* Even darker text for headings */
+        }
+        /* Styling for form inputs, textareas, and selects */
+        .form-input, .form-textarea, .form-select {
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        /* Focus styles for form elements */
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #3b82f6; /* Blue focus ring */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+        /* Primary button styling */
+        .btn-primary {
+            background-color: #2563eb; /* Blue button */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Hover effect for primary button */
+        .btn-primary:hover {
+            background-color: #1d4ed8; /* Darker blue on hover */
+        }
+        /* Base styling for message boxes */
+        .message-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        /* Success message box styling */
+        .message-box.success {
+            background-color: #d1fae5; /* Light green */
+            color: #065f46; /* Dark green text */
+            border: 1px solid #34d399;
+        }
+        /* Error message box styling */
+        .message-box.error {
+            background-color: #fee2e2; /* Light red */
+            color: #991b1b; /* Dark red text */
+            border: 1px solid #ef4444;
+        }
+        /* Loading spinner animation */
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+        }
+        /* Keyframe animation for spinner */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-6 lg:p-10 bg-white shadow-xl rounded-lg my-8">
+
+        <!-- About Me Section -->
+        <section class="mb-10">
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-center text-gray-900 mb-6">About Virtual Business Solutions</h1>
+            <p class="text-lg leading-relaxed text-gray-700 mb-4">
+                As a dedicated and highly qualified Business Consultant, I leverage a robust academic foundation, holding dual-degree Bachelors in both Finance and Accounting, and a minor in Economics from the ivy league University of Pittsburgh. My expertise is further amplified by extensive certifications, and specialized training in business, data, and tech. I have years of experience and skills to offer, and always enjoy a challenging project.
+            </p>
+            <p class="text-lg leading-relaxed text-gray-700 mb-4">
+                My career is marked by a proven ability to optimize financial and administrative operations. I excel in **setting up, migrating, and integrating complex bookkeeping and accounting systems** with CRM and ERP software, ensuring seamless transitions and enhanced functionality. I possess a meticulous approach to **Accounts Payable and Accounts Receivable management**, including a track record of **collecting challenging receivables** and **maximizing A/P discounts**. Furthermore, I am adept at **rectifying erroneous bookkeeping entries and cleaning data** to ensure the highest levels of financial accuracy and integrity. My proficiency extends to **data analysis and reporting** using tools like Microsoft Excel, Google Sheets, and Power BI, alongside comprehensive **HR and office operations support**.
+            </p>
+            <p class="text-lg leading-relaxed text-gray-700">
+                I am committed to delivering tailored, strategic solutions that empower businesses to streamline their processes, enhance financial control, and achieve their operational and financial objectives.
+            </p>
+        </section>
+
+        <hr class="my-10 border-gray-300">
+
+        <!-- Quick Business Insight Section (LLM-powered) -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold section-heading">✨ Quick Business Insight ✨</h2>
+            <p class="text-gray-600 mb-6">
+                Have a general business question? Get a quick, AI-powered tip or insight here!
+            </p>
+            <div class="space-y-6">
+                <div>
+                    <label for="businessQuestion" class="block text-gray-700 text-sm font-semibold mb-2">Your Business Question:</label>
+                    <textarea id="businessQuestion" rows="4" class="form-textarea" placeholder="E.g., How can a small business improve cash flow? What are common financial pitfalls for startups?"></textarea>
+                </div>
+                <div class="flex justify-center">
+                    <button id="getInsightBtn" class="btn-primary">
+                        Get Insight
+                        <span id="loadingSpinner" class="loading-spinner hidden"></span>
+                    </button>
+                </div>
+                <div id="insightResult" class="message-box hidden"></div>
+            </div>
+        </section>
+
+        <hr class="my-10 border-gray-300">
+
+        <!-- Contact Form Section -->
+        <section>
+            <h2 class="text-3xl font-bold section-heading">Connect With Me</h2>
+            <p class="text-gray-600 mb-6">
+                Whether you're seeking more information, have specific questions, or are ready to discuss your consulting needs, please use the form below to reach out. I look forward to connecting with you.
+            </p>
+
+            <form id="contactForm" class="space-y-6" action="YOUR_GOOGLE_FORM_RESPONSE_URL_HERE" method="POST" target="hidden_iframe">
+                <div>
+                    <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Your Name</label>
+                    <input type="text" id="name" name="entry.123456789" class="form-input" placeholder="Enter your name" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Your Email</label>
+                    <input type="email" id="email" name="entry.987654321" class="form-input" placeholder="Enter your email address" required>
+                </div>
+                <div>
+                    <label for="service" class="block text-gray-700 text-sm font-semibold mb-2">Service Interest</label>
+                    <select id="service" name="entry.112233445" class="form-select" required>
+                        <option value="">Select a service...</option>
+                        <option value="Accounting System Setup/Migration">Accounting System Setup/Migration</option>
+                        <option value="Accounts Payable/Receivable Optimization">Accounts Payable/Receivable Optimization</option>
+                        <option value="Data Cleaning & Integrity">Data Cleaning & Integrity</option>
+                        <option value="Financial Reporting & Analysis">Financial Reporting & Analysis</option>
+                        <option value="HR & Office Operations Support">HR & Office Operations Support</option>
+                        <option value="General Business Consulting">General Business Consulting</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="message" class="block text-gray-700 text-sm font-semibold mb-2">Your Message / Questions</label>
+                    <textarea id="message" name="entry.554433221" rows="5" class="form-textarea" placeholder="Tell me more about what you need or ask your questions here..." required></textarea>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="btn-primary">
+                        Submit Inquiry
+                    </button>
+                </div>
+                <input type="hidden" name="fvv" value="1">
+                <input type="hidden" name="dlcm" value="ChRtc2ZsZGRyZWllckBnbWFpbC5jb20">
+                <input type="hidden" name="id" value="YOUR_GOOGLE_FORM_ID_HERE">
+                <input type="hidden" name="pageHistory" value="0">
+                <input type="hidden" name="submit" value="Submit">
+            </form>
+            <div id="formMessage" class="message-box hidden"></div>
+        </section>
+    </div>
+
+    <!-- Hidden iframe for silent form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <script>
+        // Define the formSubmitted function globally to handle Google Form submissions
+        function formSubmitted() {
+            const form = document.getElementById('contactForm');
+            const formMessage = document.getElementById('formMessage');
+
+            // This function runs when the iframe loads, which happens after form submission.
+            // We use a custom data attribute to ensure this only runs when the form was actually submitted
+            if (form.getAttribute('data-submitted') === 'true') {
+                formMessage.classList.remove('hidden');
+                formMessage.classList.remove('error');
+                formMessage.classList.add('success');
+                formMessage.textContent = 'Thank you for your inquiry! I will get back to you shortly.';
+                form.reset(); // Clear the form after successful submission
+                form.removeAttribute('data-submitted'); // Reset the flag
+                form.removeAttribute('target'); // Reset the target, important for re-submission
+            }
+        }
+
+        // Event listener for when the DOM content is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const hiddenIframe = document.getElementById('hidden_iframe');
+            const formMessage = document.getElementById('formMessage');
+
+            // Attach the load event listener to the hidden iframe for silent form submissions
+            hiddenIframe.addEventListener('load', formSubmitted);
+
+            // Event listener for the contact form submission
+            form.addEventListener('submit', function(event) {
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const service = document.getElementById('service');
+                const message = document.getElementById('message');
+
+                let isValid = true;
+                let errorMessage = '';
+
+                // Basic client-side validation
+                if (!name.value.trim()) {
+                    isValid = false;
+                    errorMessage += 'Please enter your name. ';
+                }
+                if (!email.value.trim() || !email.value.includes('@')) {
+                    isValid = false;
+                    errorMessage += 'Please enter a valid email address. ';
+                }
+                if (!service.value) {
+                    isValid = false;
+                    errorMessage += 'Please select a service interest. ';
+                }
+                if (!message.value.trim()) {
+                    isValid = false;
+                    errorMessage += 'Please enter your message. ';
+                }
+
+                if (!isValid) {
+                    event.preventDefault(); // Stop form submission if validation fails
+                    formMessage.classList.remove('hidden');
+                    formMessage.classList.remove('success');
+                    formMessage.classList.add('error');
+                    formMessage.textContent = 'Error: ' + errorMessage.trim();
+                } else {
+                    formMessage.classList.add('hidden'); // Hide any previous error messages
+                    // Set a custom data attribute to indicate the form was submitted
+                    form.setAttribute('data-submitted', 'true');
+                    // Set the form's target to the hidden iframe for silent submission
+                    this.setAttribute('target', 'hidden_iframe');
+                }
+            });
+
+            // LLM Integration Logic for "Quick Business Insight"
+            const getInsightBtn = document.getElementById('getInsightBtn');
+            const businessQuestionInput = document.getElementById('businessQuestion');
+            const insightResultDiv = document.getElementById('insightResult');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            // Event listener for the "Get Insight" button click
+            getInsightBtn.addEventListener('click', async () => {
+                const question = businessQuestionInput.value.trim();
+
+                // Validate if a question has been entered
+                if (!question) {
+                    insightResultDiv.classList.remove('hidden', 'success');
+                    insightResultDiv.classList.add('error');
+                    insightResultDiv.textContent = 'Please enter a business question to get an insight.';
+                    return; // Stop execution if no question
+                }
+
+                // Prepare UI for loading state
+                insightResultDiv.classList.add('hidden');
+                insightResultDiv.textContent = ''; // Clear previous results
+                loadingSpinner.classList.remove('hidden');
+                getInsightBtn.disabled = true; // Disable button to prevent multiple clicks
+
+                try {
+                    // Construct the prompt for the Gemini API
+                    const prompt = `Provide a concise, professional business tip or insight (max 100 words) for the following question: "${question}"`;
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = { contents: chatHistory };
+                    // The apiKey variable will be automatically provided by the Canvas environment at runtime.
+                    // DO NOT provide an API key here, leave it as an empty string.
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    // Make the API call to Gemini
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    // Check if the HTTP response itself was successful (status code 200-299)
+                    if (!response.ok) {
+                        const errorBody = await response.text(); // Get raw error body for more info
+                        // Throw an error to be caught by the catch block
+                        throw new Error(`Gemini API HTTP error! Status: ${response.status}, Body: ${errorBody}`);
+                    }
+
+                    const result = await response.json(); // Parse the JSON response
+
+                    // Check the structure of the successful JSON response for expected content
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        // Display the insight
+                        insightResultDiv.classList.remove('hidden', 'error');
+                        insightResultDiv.classList.add('success');
+                        insightResultDiv.textContent = text;
+                    } else {
+                        // Handle cases where response is OK but content structure is unexpected
+                        insightResultDiv.classList.remove('hidden', 'success');
+                        insightResultDiv.classList.add('error');
+                        insightResultDiv.textContent = 'Failed to get an insight. The AI returned an unexpected format.';
+                        console.error('Gemini API response structure unexpected:', result);
+                    }
+
+                } catch (error) {
+                    // Catch any errors during the fetch or parsing process
+                    insightResultDiv.classList.remove('hidden', 'success');
+                    insightResultDiv.classList.add('error');
+                    insightResultDiv.textContent = 'An error occurred while fetching the insight. Please try again later.';
+                    console.error('Error calling Gemini API:', error);
+                } finally {
+                    // Always hide spinner and re-enable button when process is complete
+                    loadingSpinner.classList.add('hidden');
+                    getInsightBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
