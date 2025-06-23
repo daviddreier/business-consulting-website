@@ -139,21 +139,20 @@
                 Whether you're seeking more information, have specific questions, or are ready to discuss your consulting needs, please use the form below to reach out. I look forward to connecting with you.
             </p>
 
-            <!-- Formspree integration -->
             <form id="contactForm" class="space-y-6"
-                action="https://formspree.io/f/mjkreldr"
-                method="POST">
+                action="https://docs.google.com/forms/d/e/1FAIpQLSdkXrUDgLMuikqgSoMmFWKyubBPHKaZuy7aYvFR7nEaaM_2mw/formresponse"
+                method="POST" target="hidden_iframe">
                 <div>
                     <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Your Name</label>
-                    <input type="text" id="name" name="Name" class="form-input" placeholder="Enter your name" required>
+                    <input type="text" id="name" name="entry.2005620559" class="form-input" placeholder="Enter your name" required>
                 </div>
                 <div>
                     <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Your Email</label>
-                    <input type="email" id="email" name="Email" class="form-input" placeholder="Enter your email address" required>
+                    <input type="email" id="email" name="entry.1051515366" class="form-input" placeholder="Enter your email address" required>
                 </div>
                 <div>
                     <label for="service" class="block text-gray-700 text-sm font-semibold mb-2">Service Interest</label>
-                    <select id="service" name="Service Interest" class="form-select" required>
+                    <select id="service" name="entry.1741707823" class="form-select" required>
                         <option value="">Select a service...</option>
                         <option value="Accounting System Setup/Migration">Accounting System Setup/Migration</option>
                         <option value="Accounts Payable/Receivable Optimization">Accounts Payable/Receivable Optimization</option>
@@ -166,50 +165,56 @@
                 </div>
                 <div>
                     <label for="message" class="block text-gray-700 text-sm font-semibold mb-2">Your Message / Questions</label>
-                    <textarea id="message" name="Message" rows="5" class="form-textarea" placeholder="Tell me more about what you need or ask your questions here..." required></textarea>
+                    <textarea id="message" name="entry.1118121544" rows="5" class="form-textarea" placeholder="Tell me more about what you need or ask your questions here..." required></textarea>
                 </div>
                 <div class="flex justify-center">
                     <button type="submit" class="btn-primary">
                         Submit Inquiry
                     </button>
                 </div>
-                <!-- Hidden inputs for Google Forms are removed as they are not needed for Formspree -->
+                <input type="hidden" name="fvv" value="1">
+                <input type="hidden" name="dlcm" value="ChRtc2ZsZGRyZWllckBnbWFpbC5jb20">
+                <input type="hidden" name="id" value="1FAIpQLSdkXrUDgLMuikqgSoMmFWKyubBPHKaZuy7aYvFR7nEaaM_2mw">
+                <input type="hidden" name="pageHistory" value="0">
+                <input type="hidden" name="submit" value="Submit">
             </form>
             <div id="formMessage" class="message-box hidden"></div>
         </section>
     </div>
 
-    <!-- Hidden iframe and its associated JavaScript are not typically needed for Formspree's default submission,
-         as Formspree handles the redirect to a success page directly. -->
+    <!-- Hidden iframe for silent form submission -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
     <script>
-        // The formSubmitted function and iframe listener are commented out
-        // as Formspree's default behavior is a redirect to a success page.
-        // If you want to handle submissions without a redirect (AJAX submission),
-        // you would need to implement Formspree's AJAX setup.
-        /*
+        // Define the formSubmitted function globally to handle Google Form submissions
         function formSubmitted() {
             const form = document.getElementById('contactForm');
             const formMessage = document.getElementById('formMessage');
+
+            // This function runs when the iframe loads, which happens after form submission.
+            // We use a custom data attribute to ensure this only runs when the form was actually submitted
             if (form.getAttribute('data-submitted') === 'true') {
-                formMessage.classList.remove('hidden', 'error');
+                formMessage.classList.remove('hidden');
+                formMessage.classList.remove('error');
                 formMessage.classList.add('success');
-                formMessage.textContent = 'Thank you for your inquiry! We will get back to you shortly.';
-                form.reset();
-                form.removeAttribute('data-submitted');
-                form.removeAttribute('target');
+                formMessage.textContent = 'Thank you for your inquiry! I will get back to you shortly.';
+                form.reset(); // Clear the form after successful submission
+                form.removeAttribute('data-submitted'); // Reset the flag
+                form.removeAttribute('target'); // Reset the target, important for re-submission
             }
         }
-        */
 
+        // Event listener for when the DOM content is fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('contactForm');
+            const hiddenIframe = document.getElementById('hidden_iframe');
             const formMessage = document.getElementById('formMessage');
+
+            // Attach the load event listener to the hidden iframe for silent form submissions
+            hiddenIframe.addEventListener('load', formSubmitted);
 
             // Event listener for the contact form submission
             form.addEventListener('submit', function(event) {
-                // Client-side validation remains useful
                 const name = document.getElementById('name');
                 const email = document.getElementById('email');
                 const service = document.getElementById('service');
@@ -218,6 +223,7 @@
                 let isValid = true;
                 let errorMessage = '';
 
+                // Basic client-side validation
                 if (!name.value.trim()) {
                     isValid = false;
                     errorMessage += 'Please enter your name. ';
@@ -243,6 +249,10 @@
                     formMessage.textContent = 'Error: ' + errorMessage.trim();
                 } else {
                     formMessage.classList.add('hidden'); // Hide any previous error messages
+                    // Set a custom data attribute to indicate the form was submitted
+                    form.setAttribute('data-submitted', 'true');
+                    // Set the form's target to the hidden iframe for silent submission
+                    this.setAttribute('target', 'hidden_iframe');
                 }
             });
 
@@ -281,7 +291,7 @@
                     // The apiKey variable should be an empty string. The Canvas environment
                     // will automatically provide the API key securely at runtime.
                     // DO NOT hardcode your API key directly in publicly visible client-side code.
-                    const apiKey = "AIzaSyCHKv9kysYPHqO03i4upUSXRUsWw5L0tvU"; // This should be an empty string for security
+                    const apiKey = "AIzaSyCHKv9kysYPHqO03i4upUSXRUsWw5L0tvU"; // PASTE YOUR KEY HERE (THIS IS THE NEW, CORRECTED KEY)
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                     // Make the API call to Gemini
@@ -294,6 +304,7 @@
                     // Check if the HTTP response itself was successful (status code 200-299)
                     if (!response.ok) {
                         const errorBody = await response.text(); // Get raw error body for more info
+                        // Throw an error to be caught by the catch block
                         throw new Error(`Gemini API HTTP error! Status: ${response.status}, Body: ${errorBody}`);
                     }
 
