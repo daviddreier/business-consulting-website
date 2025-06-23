@@ -174,11 +174,6 @@
                     </button>
                 </div>
                 <!-- Hidden inputs for Google Forms are removed as they are not needed for Formspree -->
-                <!-- <input type="hidden" name="fvv" value="1"> -->
-                <!-- <input type="hidden" name="dlcm" value="ChRtc2ZsZGRyZWllckBnbWFpbC5jb20"> -->
-                <!-- <input type="hidden" name="id" value="1FAIpQLSdkXrUDgLMuikqgSoMmFWKyubBPHKaZuy7aYvFR7nEaaM_2mw"> -->
-                <!-- <input type="hidden" name="pageHistory" value="0"> -->
-                <!-- <input type="hidden" name="submit" value="Submit"> -->
             </form>
             <div id="formMessage" class="message-box hidden"></div>
         </section>
@@ -211,9 +206,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('contactForm');
             const formMessage = document.getElementById('formMessage');
-            // const hiddenIframe = document.getElementById('hidden_iframe'); // Not used for default Formspree submission
-
-            // hiddenIframe.addEventListener('load', formSubmitted); // Not used for default Formspree submission
 
             // Event listener for the contact form submission
             form.addEventListener('submit', function(event) {
@@ -251,12 +243,10 @@
                     formMessage.textContent = 'Error: ' + errorMessage.trim();
                 } else {
                     formMessage.classList.add('hidden'); // Hide any previous error messages
-                    // For Formspree, the form will submit normally via its action URL.
-                    // No need to set 'data-submitted' or 'target' for Formspree's default behavior.
                 }
             });
 
-            // LLM Integration Logic for "Quick Business Insight" (remains unchanged)
+            // LLM Integration Logic for "Quick Business Insight"
             const getInsightBtn = document.getElementById('getInsightBtn');
             const businessQuestionInput = document.getElementById('businessQuestion');
             const insightResultDiv = document.getElementById('insightResult');
@@ -287,9 +277,11 @@
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
 
                     const payload = { contents: chatHistory };
-                    // The apiKey variable will be automatically provided by the Canvas environment at runtime.
-                    // DO NOT provide an API key here, leave it as an empty string.
-                    const apiKey = "AIzaSyAZjudsbX77guAMR0nFYMULClbwnZiUC88"; // PASTE YOUR KEY HERE
+                    // **IMPORTANT SECURITY FIX:**
+                    // The apiKey variable should be an empty string. The Canvas environment
+                    // will automatically provide the API key securely at runtime.
+                    // DO NOT hardcode your API key directly in publicly visible client-side code.
+                    const apiKey = "AIzaSyCHKv9kysYPHqO03i4upUSXRUsWw5L0tvU"; // This should be an empty string for security
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                     // Make the API call to Gemini
@@ -302,7 +294,6 @@
                     // Check if the HTTP response itself was successful (status code 200-299)
                     if (!response.ok) {
                         const errorBody = await response.text(); // Get raw error body for more info
-                        // Throw an error to be caught by the catch block
                         throw new Error(`Gemini API HTTP error! Status: ${response.status}, Body: ${errorBody}`);
                     }
 
